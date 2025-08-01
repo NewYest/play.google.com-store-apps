@@ -72,8 +72,8 @@ const AppHeader = () => {
           )}
           <span className="relative z-10">
             {buttonState === 'install' && 'Instalar'}
-            {buttonState === 'installing' && `Установка... ${progress}%`}
-            {buttonState === 'open' && 'Открыть'}
+            {buttonState === 'installing' && `Instalando... ${progress}%`}
+            {buttonState === 'open' && 'Abrir'}
           </span>
         </Button>
       </div>

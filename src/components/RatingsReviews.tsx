@@ -1,7 +1,7 @@
 import { Star, ChevronRight, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import maleAvatar from "@/assets/male-avatar.jpg";
+import realMaleAvatar from "@/assets/real-male-avatar.jpg";
 
 const RatingsReviews = () => {
   const reviews = [
@@ -91,7 +91,7 @@ const RatingsReviews = () => {
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <Avatar>
-                  <AvatarImage src={maleAvatar} alt={review.author} />
+                  <AvatarImage src={realMaleAvatar} alt={review.author} />
                   <AvatarFallback>
                     {review.author.charAt(0).toUpperCase()}
                   </AvatarFallback>

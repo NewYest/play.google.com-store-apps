@@ -21,6 +21,9 @@ const AppHeader = () => {
           return prev + 4; // 100% / 25 сек = 4% в секунду
         });
       }, 1000);
+    } else if (buttonState === 'open') {
+      // Открываем ссылку в новом окне
+      window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
     }
   };
 

@@ -25,7 +25,7 @@ const AppHeader = () => {
         
         <div className="flex flex-col items-center">
           <Download className="w-5 h-5 text-muted-foreground" />
-          <span className="text-sm font-medium">169 MB</span>
+          <span className="font-medium text-xs">169 MB</span>
         </div>
         
         <div className="text-center">

@@ -1,6 +1,29 @@
 import { Star, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 const AppHeader = () => {
+  const [buttonState, setButtonState] = useState<'install' | 'installing' | 'open'>('install');
+  const [progress, setProgress] = useState(0);
+
+  const handleInstall = () => {
+    if (buttonState === 'install') {
+      setButtonState('installing');
+      setProgress(0);
+      
+      // Анимация прогресса в течение 25 секунд
+      const interval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setButtonState('open');
+            return 100;
+          }
+          return prev + 4; // 100% / 25 сек = 4% в секунду
+        });
+      }, 1000);
+    }
+  };
+
   return <div className="bg-card p-4 space-y-4">
       {/* App Icon and Basic Info */}
       <div className="flex items-start gap-4">
@@ -35,9 +58,25 @@ const AppHeader = () => {
       </div>
 
       {/* Install Button */}
-      <Button className="w-full h-12 bg-primary hover:bg-primary/90 rounded-full text-base font-medium">
-        Instalar
-      </Button>
+      <div className="relative">
+        <Button 
+          onClick={handleInstall}
+          disabled={buttonState === 'installing'}
+          className="w-full h-12 bg-primary hover:bg-primary/90 rounded-full text-base font-medium relative overflow-hidden"
+        >
+          {buttonState === 'installing' && (
+            <div 
+              className="absolute left-0 top-0 h-full bg-primary-foreground/20 transition-all duration-1000 ease-linear"
+              style={{ width: `${progress}%` }}
+            />
+          )}
+          <span className="relative z-10">
+            {buttonState === 'install' && 'Instalar'}
+            {buttonState === 'installing' && `Установка... ${progress}%`}
+            {buttonState === 'open' && 'Открыть'}
+          </span>
+        </Button>
+      </div>
       
       <p className="text-xs text-muted-foreground text-center">
         Instalar en teléfono. Más dispositivos disponibles.

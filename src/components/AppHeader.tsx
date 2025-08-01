@@ -1,9 +1,7 @@
 import { Star, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const AppHeader = () => {
-  return (
-    <div className="bg-card p-4 space-y-4">
+  return <div className="bg-card p-4 space-y-4">
       {/* App Icon and Basic Info */}
       <div className="flex items-start gap-4">
         <div className="w-20 h-20 bg-app-icon-bg rounded-2xl flex items-center justify-center">
@@ -37,15 +35,13 @@ const AppHeader = () => {
       </div>
 
       {/* Install Button */}
-      <Button className="w-full h-12 text-lg font-medium bg-primary hover:bg-primary/90">
+      <Button className="w-full h-12 bg-primary hover:bg-primary/90 rounded-full text-base font-medium">
         Instalar
       </Button>
       
       <p className="text-xs text-muted-foreground text-center">
         Instalar en teléfono. Más dispositivos disponibles.
       </p>
-    </div>
-  );
+    </div>;
 };
-
 export default AppHeader;

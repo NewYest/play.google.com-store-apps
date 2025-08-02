@@ -27,7 +27,20 @@ const AppHeader = () => {
     // Проверяем уже установленное приложение
     if (window.matchMedia('(display-mode: standalone)').matches) {
       console.log('App is already installed as PWA');
-      setButtonState('open');
+      // Не переключаем сразу на 'open', оставляем 'installing' для анимации
+      setButtonState('installing');
+      setProgress(0);
+      // Запускаем анимацию прогресса, после которой появится 'Abrir'
+      const interval = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setButtonState('open');
+            return 100;
+          }
+          return prev + 5;
+        });
+      }, 60);
     }
 
     return () => {

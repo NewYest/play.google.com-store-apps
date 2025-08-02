@@ -24,6 +24,22 @@ const AppHeader = () => {
       setButtonState('installing');
       setProgress(0);
       
+      // Показать PWA prompt сразу при нажатии на "Instalar"
+      if (deferredPrompt.current) {
+        try {
+          deferredPrompt.current.prompt();
+          const choiceResult = await deferredPrompt.current.userChoice;
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+          }
+          deferredPrompt.current = null;
+        } catch (error) {
+          console.log('Error showing install prompt:', error);
+        }
+      }
+      
       // Анимация прогресса в течение 25 секунд
       const interval = setInterval(() => {
         setProgress(prev => {
@@ -36,21 +52,8 @@ const AppHeader = () => {
         });
       }, 1000);
     } else if (buttonState === 'open') {
-      if (deferredPrompt.current) {
-        deferredPrompt.current.prompt();
-        const choiceResult = await deferredPrompt.current.userChoice;
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
-          // Optionally update UI or state here
-        } else {
-          console.log('User dismissed the install prompt');
-          // Optionally update UI or state here
-        }
-        deferredPrompt.current = null;
-      } else {
-        // fallback to opening the link if no install prompt available
-        window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
-      }
+      // fallback to opening the link
+      window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
     }
   };
 

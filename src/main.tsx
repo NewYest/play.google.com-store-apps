@@ -10,28 +10,5 @@ if (isStandalone) {
   window.location.replace(smartlink);
 } else {
   registerServiceWorker();
-  // Автоматический запрос разрешения на уведомления
-  if ('Notification' in window && navigator.serviceWorker) {
-    Notification.requestPermission().then(permission => {
-      if (permission === 'granted') {
-        setTimeout(async () => {
-          const registration = await navigator.serviceWorker.getRegistration();
-          if (registration) {
-            registration.showNotification('Tienes dos mensajes de una chica', {
-              body: 'Abre el chat para leerlos',
-              icon: '/icon-192.png',
-              badge: '/icon-192.png',
-              tag: 'new-messages',
-              renotify: true,
-              actions: [
-                { action: 'open', title: 'Abrir chat', icon: '/icon-192.png' }
-              ],
-              data: { url: '/' }
-            });
-          }
-        }, 30000); // 30 секунд
-      }
-    });
-  }
   createRoot(document.getElementById('root')!).render(<App />);
 }

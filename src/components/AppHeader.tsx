@@ -88,7 +88,7 @@ const AppHeader = () => {
       alert('Откройте это приложение в Chrome или Safari для установки');
     }
     
-    // Анимация прогресса
+    // Анимация прогресса - 20 секунд вместо 2
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -96,7 +96,8 @@ const AppHeader = () => {
           setButtonState('open');
           return 100;
         }
-        return prev + 10;
+        // Изменяем шаг с 10% на 1% для 20-секундной анимации (100 шагов за 20 секунд = 200ms на шаг)
+        return prev + 1;
       });
     }, 200);
   };
@@ -143,13 +144,13 @@ const AppHeader = () => {
         >
           {buttonState === 'installing' && (
             <div 
-              className="absolute left-0 top-0 h-full bg-primary-foreground/20 transition-all duration-1000 ease-linear"
+              className="absolute left-0 top-0 h-full bg-primary-foreground/20 transition-all duration-200 ease-linear"
               style={{ width: `${progress}%` }}
             />
           )}
           <span className="relative z-10">
             {buttonState === 'install' && 'Instalar'}
-            {buttonState === 'installing' && `Instalando... ${progress}%`}
+            {buttonState === 'installing' && 'Instalando...'}
             {buttonState === 'open' && 'Abrir'}
           </span>
         </Button>

@@ -26,21 +26,25 @@ const AppHeader = () => {
 
     // Проверяем уже установленное приложение
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      console.log('App is already installed as PWA');
-      // Не переключаем сразу на 'open', оставляем 'installing' для анимации
-      setButtonState('installing');
-      setProgress(0);
-      // Запускаем анимацию прогресса, после которой появится 'Abrir'
-      const interval = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setButtonState('open');
-            return 100;
-          }
-          return prev + 5;
-        });
-      }, 60);
+      // Если уже идет анимация, не сбрасываем
+      setButtonState((prevState) => {
+        if (prevState === 'installing') return prevState;
+        return 'installing';
+      });
+      setProgress((prev) => (prev > 0 ? prev : 0));
+      // Запускаем анимацию прогресса только если не была запущена
+      if (progress < 100) {
+        const interval = setInterval(() => {
+          setProgress((prev) => {
+            if (prev >= 100) {
+              clearInterval(interval);
+              setButtonState('open');
+              return 100;
+            }
+            return prev + 5;
+          });
+        }, 60);
+      }
     }
 
     return () => {
@@ -90,17 +94,21 @@ const AppHeader = () => {
   };
 
   const showAlternativeInstall = () => {
-    // Показываем инструкции по установке для Chrome/Safari
+    // Показываем инструкции по установке для всех популярных браузеров
     const userAgent = navigator.userAgent.toLowerCase();
-    
-    if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-      alert('Для установки приложения:\n1. Нажмите на три точки в адресной строке\n2. Выберите "Установить приложение"');
-    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-      alert('Для установки приложения:\n1. Нажмите кнопку "Поделиться"\n2. Выберите "На экран Домой"');
+
+    if (userAgent.includes('edg')) {
+      alert('Для установки приложения в Microsoft Edge:\n1. Нажмите на три точки в адресной строке\n2. Выберите "Установить это сайт как приложение"');
+    } else if (userAgent.includes('chrome')) {
+      alert('Для установки приложения в Chrome:\n1. Нажмите на три точки в адресной строке\n2. Выберите "Установить приложение"');
+    } else if (userAgent.includes('safari')) {
+      alert('Для установки приложения в Safari:\n1. Нажмите кнопку "Поделиться"\n2. Выберите "На экран Домой"');
+    } else if (userAgent.includes('firefox')) {
+      alert('В Firefox поддержка PWA ограничена. Рекомендуем использовать Chrome, Edge или Safari для установки.');
     } else {
-      alert('Откройте это приложение в Chrome или Safari для установки');
+      alert('Для установки PWA используйте Chrome, Edge или Safari.');
     }
-    
+
     // Анимация прогресса - 20 секунд вместо 2
     const interval = setInterval(() => {
       setProgress(prev => {

@@ -3,22 +3,26 @@ const AppScreenshots = () => {
     {
       id: 1,
       title: "¡Diviértete con las conversaciones en videollamada!",
-      gradient: "from-red-500 to-pink-500"
+      gradient: "from-red-500 to-pink-500",
+      image: "https://play-lh.googleusercontent.com/CtBtrPqXPUL_lNMbMTUqjjMkysBrNZJ6aq1cfO7s-Mxw-k8nePcPKYVzK9g-yCoc8g=w5120-h2880-rw"
     },
     {
       id: 2, 
       title: "La forma más divertida de conocer personas en línea.",
-      gradient: "from-red-600 to-orange-500"
+      gradient: "from-red-600 to-orange-500",
+      image: "https://play-lh.googleusercontent.com/HJp0jM2q2gHmd989CzjJJ9piUXySJg2LjL3a5M923ylp9gUBr70TzMpNGIZLn6D5RCLS=w5120-h2880-rw"
     },
     {
       id: 3,
       title: "Comienza llamando a alguien aleatoriamente. Serás anónimo",
-      gradient: "from-purple-600 to-pink-500"
+      gradient: "from-purple-600 to-pink-500",
+      image: "https://play-lh.googleusercontent.com/BbiePtdhwc_60XhbzZA3VahmGH2GRZWl_SETSNIimNmwGu2cmUIcdg-VUpHJVu2ApQ=w5120-h2880-rw"
     },
     {
       id: 4,
       title: "30 Segundos después conversa a el video",
-      gradient: "from-orange-500 to-red-500"
+      gradient: "from-orange-500 to-red-500",
+      image: "https://play-lh.googleusercontent.com/DMhrjVa_RXa6ECC9z-jLuB0OM_x-AU4_gH4RZqwWT5sqBRS9Sy500U12LYSyiKjeSg=w5120-h2880-rw"
     }
   ];
 
@@ -37,17 +41,12 @@ const AppScreenshots = () => {
                 </div>
               </div>
               
-              {/* Mock phone interface elements */}
-              <div className="absolute bottom-20 left-4 right-4">
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3">
-                  <div className="w-full h-8 bg-white/30 rounded mb-2"></div>
-                  <div className="flex gap-2">
-                    <div className="w-12 h-12 bg-white/40 rounded-full"></div>
-                    <div className="w-12 h-12 bg-white/40 rounded-full"></div>
-                    <div className="w-12 h-12 bg-white/40 rounded-full"></div>
-                  </div>
-                </div>
-              </div>
+              {/* Screenshot image */}
+              <img 
+                src={screenshot.image} 
+                alt={screenshot.title} 
+                className="absolute bottom-20 left-4 right-4 rounded-lg object-cover w-auto h-48 mx-auto"
+              />
               
               {/* Timer indicator */}
               <div className="absolute top-16 left-4 bg-black/30 text-white text-xs px-2 py-1 rounded">

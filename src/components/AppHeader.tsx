@@ -109,7 +109,7 @@ const AppHeader = () => {
           <span className="text-app-pink text-2xl font-bold">who</span>
         </div>
         <div className="flex-1">
-          <h1 className="text-xl font-semibold text-foreground">Who -- Call&Match</h1>
+          <h1 className="text-xl font-semibold text-foreground">Who -- Tu Match Perfecto</h1>
           <p className="text-primary text-sm font-medium">Media Republic Apps</p>
           <p className="text-muted-foreground text-xs">Contiene anuncios • Compras en la aplicación</p>
         </div>

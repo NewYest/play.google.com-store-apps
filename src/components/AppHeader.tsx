@@ -73,13 +73,13 @@ const AppHeader = () => {
             // Запускаем анимацию прогресса, только после неё появится 'Abrir'
             let progressValue = 0;
             const interval = setInterval(() => {
-              progressValue += 5;
+              progressValue += 1;
               setProgress(progressValue);
               if (progressValue >= 100) {
                 clearInterval(interval);
                 setButtonState('open');
               }
-            }, 60);
+            }, 200); // 100 шагов по 200мс = 20 секунд
           } else {
             console.log('User dismissed the install prompt');
             setButtonState('install');

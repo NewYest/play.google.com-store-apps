@@ -105,8 +105,12 @@ const AppHeader = () => {
   return <div className="bg-card p-4 space-y-4">
       {/* App Icon and Basic Info */}
       <div className="flex items-start gap-4">
-        <div className="w-20 h-20 bg-app-icon-bg rounded-2xl flex items-center justify-center">
-          <span className="text-app-pink text-2xl font-bold">who</span>
+        <div className="w-20 h-20 bg-app-icon-bg rounded-2xl flex items-center justify-center overflow-hidden">
+          <img
+            src="https://play-lh.googleusercontent.com/L9ORRk9D8WUX4sqd0Za0CTI7hpDdDmZSGlBpI9tR8c4GuP-6lML5Mk0UyqP5O5QyGcg=w240-h480-rw"
+            alt="App Logo"
+            className="w-full h-full object-contain"
+          />
         </div>
         <div className="flex-1">
           <h1 className="text-xl font-semibold text-foreground">Who -- Tu Match Perfecto</h1>
@@ -115,35 +119,40 @@ const AppHeader = () => {
         </div>
       </div>
 
-      {/* Stats Row */}
-      <div className="flex items-center justify-between text-center">
-        <div className="flex items-center gap-1">
-          <span className="text-lg font-semibold">4,3</span>
-          <Star className="w-4 h-4 fill-app-star text-app-star" />
-          <p className="text-xs text-muted-foreground ml-1">276 mil reseñas</p>
-          <Info className="w-3 h-3 text-muted-foreground ml-1" />
+      {/* Stats Row - новый дизайн */}
+      <div className="flex items-center justify-between text-center divide-x divide-border bg-white rounded-lg shadow-sm">
+        {/* Рейтинг */}
+        <div className="flex-1 flex flex-col items-center py-2">
+          <div className="flex items-center justify-center gap-1">
+            <span className="text-base font-semibold">4,3</span>
+            <Star className="w-3 h-3 text-blue-500 fill-blue-500" />
+          </div>
+          <div className="flex items-center justify-center gap-1 mt-1">
+            <span className="text-xs text-muted-foreground">276 mil reseñas</span>
+            <Info className="w-3 h-3 text-muted-foreground" />
+          </div>
         </div>
-        
-        <div className="flex flex-col items-center">
-          <Download className="w-5 h-5 text-muted-foreground" />
-          <span className="font-medium text-xs">169 MB</span>
+        {/* Загрузки */}
+        <div className="flex-1 flex flex-col items-center py-2">
+          <Download className="w-5 h-5 text-muted-foreground mb-1" />
+          <span className="font-medium text-xs">69 MB</span>
         </div>
-        
-        <div className="text-center">
-          <div className="bg-border text-xs px-2 py-1 rounded">18+</div>
-          <p className="text-xs text-muted-foreground mt-1">Para mayores de 18 años</p>
+        {/* Возраст */}
+        <div className="flex-1 flex flex-col items-center py-2">
+          <div className="bg-border text-xs px-2 py-1 rounded font-semibold">18+</div>
+          <span className="text-xs text-muted-foreground mt-1">Para mayores de 18 años</span>
         </div>
       </div>
 
       {/* Install Button */}
       <div className="relative">
-        <Button 
+        <Button
           onClick={handleInstall}
           disabled={buttonState === 'installing'}
-          className="w-full h-12 bg-primary hover:bg-primary/90 rounded-full text-base font-medium relative overflow-hidden"
+          className="w-full h-10 bg-primary hover:bg-primary/90 rounded-[22px] text-base font-medium relative overflow-hidden"
         >
           {buttonState === 'installing' && (
-            <div 
+            <div
               className="absolute left-0 top-0 h-full bg-primary-foreground/20 transition-all duration-200 ease-linear"
               style={{ width: `${progress}%` }}
             />

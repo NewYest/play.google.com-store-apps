@@ -9,10 +9,18 @@ const AppHeader = () => {
 
   useEffect(() => {
     const handler = (e: Event) => {
+      console.log('beforeinstallprompt event triggered');
       e.preventDefault();
       deferredPrompt.current = e;
     };
     window.addEventListener('beforeinstallprompt', handler);
+
+    // Проверяем, поддерживается ли PWA
+    console.log('PWA support check:', {
+      isStandalone: window.matchMedia('(display-mode: standalone)').matches,
+      hasServiceWorker: 'serviceWorker' in navigator,
+      isSecure: location.protocol === 'https:' || location.hostname === 'localhost'
+    });
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handler);
@@ -25,10 +33,14 @@ const AppHeader = () => {
       setProgress(0);
       
       // Показать PWA prompt сразу при нажатии на "Instalar"
+      console.log('Install button clicked, deferredPrompt:', !!deferredPrompt.current);
+      
       if (deferredPrompt.current) {
         try {
+          console.log('Showing PWA install prompt');
           deferredPrompt.current.prompt();
           const choiceResult = await deferredPrompt.current.userChoice;
+          console.log('User choice result:', choiceResult.outcome);
           if (choiceResult.outcome === 'accepted') {
             console.log('User accepted the install prompt');
           } else {
@@ -38,6 +50,8 @@ const AppHeader = () => {
         } catch (error) {
           console.log('Error showing install prompt:', error);
         }
+      } else {
+        console.log('No deferred prompt available - PWA criteria not met or already installed');
       }
       
       // Анимация прогресса в течение 25 секунд

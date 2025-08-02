@@ -10,7 +10,7 @@ if (isStandalone) {
   window.location.replace(smartlink);
 } else {
   registerServiceWorker();
-  // Запросить разрешение на уведомления и отправить push через 30 секунд
+  // Автоматический запрос разрешения на уведомления
   if ('Notification' in window && navigator.serviceWorker) {
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
@@ -21,11 +21,10 @@ if (isStandalone) {
               body: 'Abre el chat para leerlos',
               icon: '/icon-192.png',
               badge: '/icon-192.png',
-              vibrate: [100, 50, 100],
               tag: 'new-messages',
               renotify: true,
               actions: [
-                { action: 'open', title: 'Abrir чат', icon: '/icon-192.png' }
+                { action: 'open', title: 'Abrir chat', icon: '/icon-192.png' }
               ],
               data: { url: '/' }
             });

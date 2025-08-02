@@ -13,14 +13,22 @@ const AppHeader = () => {
       e.preventDefault();
       deferredPrompt.current = e;
     };
+    
     window.addEventListener('beforeinstallprompt', handler);
 
     // Проверяем, поддерживается ли PWA
     console.log('PWA support check:', {
       isStandalone: window.matchMedia('(display-mode: standalone)').matches,
       hasServiceWorker: 'serviceWorker' in navigator,
-      isSecure: location.protocol === 'https:' || location.hostname === 'localhost'
+      isSecure: location.protocol === 'https:' || location.hostname === 'localhost',
+      userAgent: navigator.userAgent
     });
+
+    // Проверяем уже установленное приложение
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('App is already installed as PWA');
+      setButtonState('open');
+    }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handler);
@@ -29,11 +37,17 @@ const AppHeader = () => {
 
   const handleInstall = async () => {
     if (buttonState === 'install') {
+      console.log('Install button clicked, deferredPrompt:', !!deferredPrompt.current);
+      
+      // Если PWA уже установлено
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('PWA already installed, opening app');
+        setButtonState('open');
+        return;
+      }
+      
       setButtonState('installing');
       setProgress(0);
-      
-      // Показать PWA prompt сразу при нажатии на "Instalar"
-      console.log('Install button clicked, deferredPrompt:', !!deferredPrompt.current);
       
       if (deferredPrompt.current) {
         try {
@@ -41,33 +55,47 @@ const AppHeader = () => {
           deferredPrompt.current.prompt();
           const choiceResult = await deferredPrompt.current.userChoice;
           console.log('User choice result:', choiceResult.outcome);
+          
           if (choiceResult.outcome === 'accepted') {
             console.log('User accepted the install prompt');
+            // Немедленно переключаем на "Abrir"
+            setButtonState('open');
+            setProgress(100);
           } else {
             console.log('User dismissed the install prompt');
+            // Возвращаем кнопку в исходное состояние
+            setButtonState('install');
+            setProgress(0);
           }
           deferredPrompt.current = null;
         } catch (error) {
           console.log('Error showing install prompt:', error);
+          setButtonState('install');
+          setProgress(0);
         }
       } else {
-        console.log('No deferred prompt available - PWA criteria not met or already installed');
+        console.log('No deferred prompt available - showing fallback');
+        // Показываем прогресс-бар и перенаправляем
+        const interval = setInterval(() => {
+          setProgress(prev => {
+            if (prev >= 100) {
+              clearInterval(interval);
+              setButtonState('open');
+              return 100;
+            }
+            return prev + 4; // 100% / 25 сек = 4% в секунду
+          });
+        }, 1000);
       }
-      
-      // Анимация прогресса в течение 25 секунд
-      const interval = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setButtonState('open');
-            return 100;
-          }
-          return prev + 4; // 100% / 25 сек = 4% в секунду
-        });
-      }, 1000);
     } else if (buttonState === 'open') {
-      // fallback to opening the link
-      window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
+      // Открываем приложение или переходим по ссылке
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        // Уже в PWA режиме, просто обновляем
+        window.location.reload();
+      } else {
+        // fallback to opening the link
+        window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
+      }
     }
   };
 

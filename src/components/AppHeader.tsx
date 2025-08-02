@@ -55,24 +55,31 @@ const AppHeader = () => {
   const handleInstall = async () => {
     if (buttonState === 'install') {
       console.log('Install button clicked, deferredPrompt:', !!deferredPrompt.current);
-      
       setButtonState('installing');
       setProgress(0);
-      
+
       // Проверяем, можем ли показать prompt
       if (deferredPrompt.current) {
         try {
           console.log('Showing PWA install prompt');
           const result = await deferredPrompt.current.prompt();
           console.log('Prompt result:', result);
-          
+
           const choiceResult = await deferredPrompt.current.userChoice;
           console.log('User choice result:', choiceResult.outcome);
-          
+
           if (choiceResult.outcome === 'accepted') {
             console.log('User accepted the install prompt');
-            setButtonState('open');
-            setProgress(100);
+            // Запускаем анимацию прогресса, только после неё появится 'Abrir'
+            let progressValue = 0;
+            const interval = setInterval(() => {
+              progressValue += 5;
+              setProgress(progressValue);
+              if (progressValue >= 100) {
+                clearInterval(interval);
+                setButtonState('open');
+              }
+            }, 60);
           } else {
             console.log('User dismissed the install prompt');
             setButtonState('install');

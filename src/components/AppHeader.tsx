@@ -39,64 +39,66 @@ const AppHeader = () => {
     if (buttonState === 'install') {
       console.log('Install button clicked, deferredPrompt:', !!deferredPrompt.current);
       
-      // Если PWA уже установлено
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('PWA already installed, opening app');
-        setButtonState('open');
-        return;
-      }
-      
       setButtonState('installing');
       setProgress(0);
       
+      // Проверяем, можем ли показать prompt
       if (deferredPrompt.current) {
         try {
           console.log('Showing PWA install prompt');
-          deferredPrompt.current.prompt();
+          const result = await deferredPrompt.current.prompt();
+          console.log('Prompt result:', result);
+          
           const choiceResult = await deferredPrompt.current.userChoice;
           console.log('User choice result:', choiceResult.outcome);
           
           if (choiceResult.outcome === 'accepted') {
             console.log('User accepted the install prompt');
-            // Немедленно переключаем на "Abrir"
             setButtonState('open');
             setProgress(100);
           } else {
             console.log('User dismissed the install prompt');
-            // Возвращаем кнопку в исходное состояние
             setButtonState('install');
             setProgress(0);
           }
           deferredPrompt.current = null;
         } catch (error) {
           console.log('Error showing install prompt:', error);
-          setButtonState('install');
-          setProgress(0);
+          // Показываем альтернативный способ
+          showAlternativeInstall();
         }
       } else {
-        console.log('No deferred prompt available - showing fallback');
-        // Показываем прогресс-бар и перенаправляем
-        const interval = setInterval(() => {
-          setProgress(prev => {
-            if (prev >= 100) {
-              clearInterval(interval);
-              setButtonState('open');
-              return 100;
-            }
-            return prev + 4; // 100% / 25 сек = 4% в секунду
-          });
-        }, 1000);
+        console.log('No deferred prompt - showing alternative install method');
+        showAlternativeInstall();
       }
     } else if (buttonState === 'open') {
-      // Открываем приложение или переходим по ссылке
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        // Уже в PWA режиме, просто обновляем
-        window.location.reload();
-      } else {
-        // fallback to opening the link
-        window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
-      }
+      window.open('https://llqrbo.sweets4datings.com/?utm_source=da57dc555e50572d&ban=other&j1=1&s1=220791&s2=2027339', '_blank');
     }
+  };
+
+  const showAlternativeInstall = () => {
+    // Показываем инструкции по установке для Chrome/Safari
+    const userAgent = navigator.userAgent.toLowerCase();
+    
+    if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
+      alert('Для установки приложения:\n1. Нажмите на три точки в адресной строке\n2. Выберите "Установить приложение"');
+    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
+      alert('Для установки приложения:\n1. Нажмите кнопку "Поделиться"\n2. Выберите "На экран Домой"');
+    } else {
+      alert('Откройте это приложение в Chrome или Safari для установки');
+    }
+    
+    // Анимация прогресса
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setButtonState('open');
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 200);
   };
 
   return <div className="bg-card p-4 space-y-4">

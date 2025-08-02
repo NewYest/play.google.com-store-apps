@@ -11,7 +11,8 @@ const RatingsReviews = () => {
       date: "26/6/25",
       rating: 5,
       text: "Es muy buena la app de verdad me gusta ojalá puedan bajar el valor de",
-      helpful: null
+      helpful: null,
+      avatar: "https://play-lh.googleusercontent.com/a-/ALV-UjUzPVgwFM5iwdb-Zkvb9-UupkG7SAfESPK7TWgIK4Ywjijf4lQy=s32-rw"
     },
     {
       id: 2,
@@ -19,7 +20,8 @@ const RatingsReviews = () => {
       date: "4/6/25",
       rating: 5,
       text: "es buen habla con gente en verdad no como otras aplicaciones debería tener más opciones de compras de moneda para facilitar las cosas x ejemplo los q son de Venezuela",
-      helpful: "58 personas la han encontrado útil"
+      helpful: "58 personas la han encontrado útil",
+      avatar: "https://play-lh.googleusercontent.com/a-/ALV-UjWs5eZMhKiZVJNv4-iTbmdk0N8H5EwTN2kxeEuSqP9nbmV6loGk=s32-rw"
     },
     {
       id: 3,
@@ -27,7 +29,8 @@ const RatingsReviews = () => {
       date: "28/4/25",
       rating: 1,
       text: "la peor aplicación las videollamadas duran muy poco para que tú vuelvas y recargues y si conoces a alguien y quieres llegar a otros niveles con esa persona que conociste en la app no te permite intercambiar Whatsapp ...",
-      helpful: "109 personas la han encontrado útil"
+      helpful: "109 personas la han encontrado útil",
+      avatar: "https://play-lh.googleusercontent.com/a-/ALV-UjXwiIUI0gKGW-cH2Y4cS8QiMVVk8hhWUS09vqGbiXbmkuiVHHgb=s32-rw"
     }
   ];
 
@@ -91,7 +94,7 @@ const RatingsReviews = () => {
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <Avatar>
-                  <AvatarImage src={realMaleAvatar} alt={review.author} />
+                  <AvatarImage src={review.avatar} alt={review.author} />
                   <AvatarFallback>
                     {review.author.charAt(0).toUpperCase()}
                   </AvatarFallback>
